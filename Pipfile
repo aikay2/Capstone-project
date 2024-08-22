@@ -10,6 +10,12 @@ djangorestframework = "*"
 djoser = "*"
 django-filter = "*"
 djangorestframework-yaml = "*"
+drf-yasg = "*"
+djangorestframework-xml = "*"
+whitenoise = "*"
+gunicorn = "*"
+psycopg2 = "*"
+dj-database-url = "*"
 
 [dev-packages]
 

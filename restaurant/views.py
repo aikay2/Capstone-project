@@ -7,6 +7,7 @@ from rest_framework import status, viewsets, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from.serializers import MenuSerializer, BookingSerializer
+from .permissions import IsAdminOrReadOnly
 from .models import Menu, Booking
 
 # Create your views here.
@@ -16,7 +17,7 @@ def index(request):
 class MenuItemsView(ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]  # Include DjangoFilterBackend
     filterset_fields = ['price', 'inventory']
     ordering_fields = ['title', 'price', 'inventory']
@@ -34,7 +35,7 @@ class MenuItemsView(ListCreateAPIView):
 class SingleMenuItemView(RetrieveUpdateAPIView, DestroyAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     
     @swagger_auto_schema(operation_summary="Retrieve a specific menu item")
     def get(self, request, *args, **kwargs):

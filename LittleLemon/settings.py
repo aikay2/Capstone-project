@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-@l3ed#-pp$q%5d49k1(_yp3a_s6(qss)umd9@lt6h!-$p-m@1s'
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", 'True').lower() == 'true' 
+# SECURITY WARNING: don't run with debug turned on in production! 
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", "127.0.0.1").split(" ")
 
 
 # Application definition
@@ -86,20 +87,20 @@ WSGI_APPLICATION = 'LittleLemon.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'LittleLemon',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',        
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        },
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'LittleLemon',
+    #     'USER': 'root',
+    #     'PASSWORD': 'admin',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',        
+    #     'OPTIONS': {
+    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+    #     },
+    # }
 }
 
-database_url = os.environ.get("DATABASE_URL")
+database_url = config("DATABASE_URL")
 DATABASES['default'] = dj_database_url.parse(database_url)
 
 # postgresql://littlelemon_jp9v_user:7frAlOVnk7tn1V0WCC1IyIjjHzf1tIpa@dpg-cr3jivaj1k6c73dofr50-a.oregon-postgres.render.com/littlelemon_jp9v
